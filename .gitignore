@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+db.sqlite3
+*.log
+.env
+venv/
+.env.*
+
+# Django
+*.pot
+*.pyc
+local_settings.py
+media
+staticfiles
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.DS_Store
+/dist
+
+# Vite
+/vite.config.js
+
+# IDEs
+.vscode/
+.idea/
+*.swp
