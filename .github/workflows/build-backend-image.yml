@@ -1,5 +1,9 @@
 name: Build and push backend Docker image
 
+permissions:
+  contents: read
+  packages: write
+
 on:
   push:
     branches: [ main ]
