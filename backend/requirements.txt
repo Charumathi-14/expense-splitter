@@ -1,0 +1,5 @@
+Django==6.0.6
+djangorestframework
+django-cors-headers
+gunicorn
+psycopg2-binary
