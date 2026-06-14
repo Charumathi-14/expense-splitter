@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import NavBar from '../components/NavBar';
+import Layout from '../components/Layout';
 
 function Groups() {
   const [groups, setGroups] = useState([]);
@@ -38,9 +38,8 @@ function Groups() {
   };
 
   return (
-    <div>
-      <NavBar />
-      <div style={{ padding: 24 }}>
+    <Layout>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
         <h1>Groups</h1>
         <div style={{ marginBottom: 24 }}>
           <input
@@ -70,7 +69,7 @@ function Groups() {
           )}
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

@@ -1,18 +1,37 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import NavBar from '../components/NavBar';
+import Layout from '../components/Layout';
 
 function Dashboard() {
   const [groups, setGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [balance, setBalance] = useState(null);
   const [error, setError] = useState('');
+  const [summary, setSummary] = useState({ groups: 0, expenses: 0, settlements: 0 });
+  const [loadingSummary, setLoadingSummary] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchGroups();
+    fetchSummary();
   }, []);
+
+  const fetchSummary = async () => {
+    setLoadingSummary(true);
+    try {
+      const [gRes, eRes, sRes] = await Promise.all([
+        api.get('/groups/'),
+        api.get('/expenses/'),
+        api.get('/settlements/'),
+      ]);
+      setSummary({ groups: gRes.data.length || 0, expenses: eRes.data.length || 0, settlements: sRes.data.length || 0 });
+    } catch (err) {
+      // ignore, summary optional
+    } finally {
+      setLoadingSummary(false);
+    }
+  };
 
   const fetchGroups = async () => {
     try {
@@ -34,24 +53,34 @@ function Dashboard() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/');
-  };
-
   return (
-    <div>
-      <NavBar />
-      <div style={{ padding: 24 }}>
+    <Layout>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h1>Dashboard</h1>
-            <p>Choose a group to review balances and settlement suggestions.</p>
+            <p>Overview of your groups and balances.</p>
           </div>
-          <button onClick={handleLogout} style={{ padding: '8px 16px' }}>
-            Logout
-          </button>
         </div>
+
+        {loadingSummary ? (
+          <p>Loading summary...</p>
+        ) : (
+          <div style={{ display: 'flex', gap: 16, marginTop: 16 }}>
+            <div style={{ flex: 1, padding: 16, border: '1px solid var(--border)', borderRadius: 8 }}>
+              <h3>Groups</h3>
+              <p style={{ fontSize: 24, margin: 8 }}>{summary.groups}</p>
+            </div>
+            <div style={{ flex: 1, padding: 16, border: '1px solid var(--border)', borderRadius: 8 }}>
+              <h3>Expenses</h3>
+              <p style={{ fontSize: 24, margin: 8 }}>{summary.expenses}</p>
+            </div>
+            <div style={{ flex: 1, padding: 16, border: '1px solid var(--border)', borderRadius: 8 }}>
+              <h3>Settlements</h3>
+              <p style={{ fontSize: 24, margin: 8 }}>{summary.settlements}</p>
+            </div>
+          </div>
+        )}
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -127,7 +156,7 @@ function Dashboard() {
           </div>
         </section>
       </div>
-    </div>
+    </Layout>
   );
 }
 

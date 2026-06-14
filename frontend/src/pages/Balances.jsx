@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import NavBar from '../components/NavBar';
+import Layout from '../components/Layout';
 
 function Balances() {
   const [groups, setGroups] = useState([]);
@@ -33,9 +33,8 @@ function Balances() {
   };
 
   return (
-    <div>
-      <NavBar />
-      <div style={{ padding: 24 }}>
+    <Layout>
+      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
         <h1>Balances</h1>
         <div style={{ display: 'flex', gap: 24 }}>
           <div style={{ width: 260, border: '1px solid #ddd', padding: 16, borderRadius: 8 }}>
@@ -86,7 +85,7 @@ function Balances() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import api from '../services/api';
-import NavBar from '../components/NavBar';
+import Layout from '../components/Layout';
 
 function ImportCSV() {
   const [file, setFile] = useState(null);
@@ -36,8 +36,7 @@ function ImportCSV() {
   };
 
   return (
-    <div>
-      <NavBar />
+    <Layout>
       <div style={{ padding: 24 }}>
         <h1>CSV Import</h1>
         <form onSubmit={handleSubmit}>
@@ -76,7 +75,7 @@ function ImportCSV() {
           </div>
         )}
       </div>
-    </div>
+    </Layout>
   );
 }
 
